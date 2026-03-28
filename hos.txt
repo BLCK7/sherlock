@@ -1,0 +1,646 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║          TELEGRAM BUSINESS LOGGER BOT VA WEB DASHBOARD                       ║
+║                    HOSTINGGA JOYLASHTIRISH BO'YICHA                         ║
+║                         TO'LIQ QO'LLANMA                                     ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  1-QISM: TAYYORGARLIK
+═══════════════════════════════════════════════════════════════════════════════
+
+1.1 KERAKLI MA'LUMOTLAR
+------------------------
+Quyidagi ma'lumotlarni oldindan tayyorlab qo'ying:
+
+✓ BOT_TOKEN - Telegram botingizning tokeni
+  └─ Qayerdan olish: @BotFather dan /newbot buyrug'i orqali
+
+✓ ADMIN_ID - Sizning Telegram ID raqamingiz
+  └─ Qayerdan olish: @userinfobot ga /start yuboring
+
+✓ API_ID va API_HASH - Telegram API kalitlari
+  └─ Qayerdan olish: https://my.telegram.org/apps
+  └─ "API development tools" bo'limidan oling
+
+
+1.2 HOSTING TANLASH
+-------------------
+Quyidagi hosting provayderlardan birini tanlang:
+
+A) VPS/VDS (Tavsiya etiladi):
+   • DigitalOcean (droplet)
+   • Vultr
+   • Linode
+   • Hetzner
+   • Contabo
+   
+   Minimal talablar:
+   - RAM: 1GB
+   - Disk: 10GB
+   - OS: Ubuntu 20.04 yoki 22.04
+
+B) Bepul hosting (test uchun):
+   • PythonAnywhere (cheklangan)
+   • Heroku (to'lov talab qilishi mumkin)
+   • Railway.app
+   • Render.com
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  2-QISM: VPS/VDS SERVERGA O'RNATISH (Ubuntu)
+═══════════════════════════════════════════════════════════════════════════════
+
+2.1 SERVERGA ULANISH
+--------------------
+Windows uchun:
+  • PuTTY yoki MobaXterm dasturini yuklab oling
+  • Host: serveringizning IP manzili
+  • Port: 22
+  • Username: root
+  • Password: hosting provayderdan kelgan parol
+
+Linux/Mac uchun:
+  Terminal ochib quyidagi buyruqni kiriting:
+  
+  ssh root@SERVER_IP_MANZILI
+
+
+2.2 SERVERNI YANGILASH
+----------------------
+Serverga ulanganingizdan keyin quyidagi buyruqlarni ketma-ket bajaring:
+
+sudo apt update
+sudo apt upgrade -y
+
+
+2.3 PYTHON VA KERAKLI DASTURLARNI O'RNATISH
+--------------------------------------------
+# Python 3.10+ va pip o'rnatish
+sudo apt install python3 python3-pip python3-venv -y
+
+# Git o'rnatish
+sudo apt install git -y
+
+# Screen o'rnatish (bot doim ishlashi uchun)
+sudo apt install screen -y
+
+
+2.4 LOYIHANI SERVERGA YUKLASH
+------------------------------
+Agar loyihangiz GitHub'da bo'lsa:
+
+cd /home
+git clone https://github.com/USERNAME/REPOSITORY.git
+cd REPOSITORY
+
+Agar loyihangiz kompyuteringizda bo'lsa:
+  
+  1) WinSCP yoki FileZilla dasturini oching
+  2) Serverga ulanish:
+     - Host: SERVER_IP_MANZILI
+     - Port: 22
+     - Username: root
+     - Password: parolingiz
+  
+  3) Barcha fayllarni /home/telegram_bot papkasiga yuklang:
+     - sherlock.py
+     - business_bot.db (agar mavjud bo'lsa)
+     - media_cache/ papkasi (agar mavjud bo'lsa)
+
+
+2.5 VIRTUAL ENVIRONMENT YARATISH
+---------------------------------
+cd /home/telegram_bot
+
+# Virtual environment yaratish
+python3 -m venv venv
+
+# Virtual environment'ni faollashtirish
+source venv/bin/activate
+
+
+2.6 PYTHON KUTUBXONALARINI O'RNATISH
+-------------------------------------
+# Kerakli kutubxonalarni o'rnatish
+pip install --upgrade pip
+pip install "python-telegram-bot>=22.0"
+pip install telethon
+pip install flask
+
+
+2.7 KONFIGURATSIYANI SOZLASH
+-----------------------------
+# sherlock.py faylini tahrirlash
+nano sherlock.py
+
+Quyidagi qatorlarni o'zgartiring:
+
+BOT_TOKEN    = "8420281985:AAF5SwhWg5qK9c2b22Hc__v6ylmlS_kENU8"  # ← O'z tokeningizni yozing
+ADMIN_ID     = 5982232938                                        # ← O'z ID raqamingizni yozing
+API_ID       = 12345678                                          # ← O'z API_ID raqamingizni yozing
+API_HASH     = "abcdef1234567890abcdef1234567890"               # ← O'z API_HASH ni yozing
+
+Saqlash uchun:
+  Ctrl + O (Enter)
+  Ctrl + X (chiqish)
+
+
+2.8 BOTNI ISHGA TUSHIRISH
+--------------------------
+# Screen sessiyasini yaratish (bot doim ishlashi uchun)
+screen -S telegram_bot
+
+# Botni ishga tushirish
+python3 sherlock.py
+
+# Screen'dan chiqish (bot ishlayveradi):
+Ctrl + A, keyin D tugmasini bosing
+
+# Screen'ga qaytish (keyin):
+screen -r telegram_bot
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  3-QISM: WEB DASHBOARD'NI OCHISH
+═══════════════════════════════════════════════════════════════════════════════
+
+3.1 FIREWALL SOZLAMALARI
+-------------------------
+# 5000-portni ochish (web dashboard uchun)
+sudo ufw allow 5000/tcp
+sudo ufw allow 22/tcp
+sudo ufw enable
+
+
+3.2 WEB DASHBOARD'GA KIRISH
+----------------------------
+Brauzeringizda quyidagi manzilni oching:
+
+http://SERVER_IP_MANZILI:5000
+
+Masalan:
+http://45.123.45.67:5000
+
+Parol: a1234
+
+
+3.3 DOMEN ULASH (Ixtiyoriy)
+----------------------------
+Agar domen nomingiz bo'lsa (masalan: mybot.uz):
+
+A) DNS sozlamalari:
+   1) Domen provayderingizga kiring
+   2) A record qo'shing:
+      - Type: A
+      - Name: @ yoki bot
+      - Value: SERVER_IP_MANZILI
+      - TTL: 3600
+
+B) Nginx o'rnatish va sozlash:
+
+# Nginx o'rnatish
+sudo apt install nginx -y
+
+# Konfiguratsiya yaratish
+sudo nano /etc/nginx/sites-available/telegram_bot
+
+Quyidagi kodni kiriting:
+
+server {
+    listen 80;
+    server_name mybot.uz www.mybot.uz;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+Saqlash: Ctrl+O, Enter, Ctrl+X
+
+# Konfiguratsiyani faollashtirish
+sudo ln -s /etc/nginx/sites-available/telegram_bot /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
+Endi brauzerda: http://mybot.uz
+
+
+3.4 SSL SERTIFIKAT (HTTPS) O'RNATISH
+-------------------------------------
+# Certbot o'rnatish
+sudo apt install certbot python3-certbot-nginx -y
+
+# SSL sertifikat olish
+sudo certbot --nginx -d mybot.uz -d www.mybot.uz
+
+# Email manzilingizni kiriting va savollarga javob bering
+
+Endi brauzerda: https://mybot.uz
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  4-QISM: BOTNI DOIM ISHLAB TURISHI UCHUN (SYSTEMD SERVICE)
+═══════════════════════════════════════════════════════════════════════════════
+
+4.1 SERVICE FAYLI YARATISH
+---------------------------
+sudo nano /etc/systemd/system/telegram_bot.service
+
+Quyidagi kodni kiriting:
+
+[Unit]
+Description=Telegram Business Logger Bot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/telegram_bot
+Environment="PATH=/home/telegram_bot/venv/bin"
+ExecStart=/home/telegram_bot/venv/bin/python3 /home/telegram_bot/sherlock.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+
+Saqlash: Ctrl+O, Enter, Ctrl+X
+
+
+4.2 SERVICE'NI FAOLLASHTIRISH
+------------------------------
+# Service'ni qayta yuklash
+sudo systemctl daemon-reload
+
+# Service'ni yoqish
+sudo systemctl enable telegram_bot
+
+# Service'ni ishga tushirish
+sudo systemctl start telegram_bot
+
+# Holati tekshirish
+sudo systemctl status telegram_bot
+
+
+4.3 SERVICE BOSHQARUV BUYRUQLARI
+---------------------------------
+# Botni to'xtatish
+sudo systemctl stop telegram_bot
+
+# Botni qayta ishga tushirish
+sudo systemctl restart telegram_bot
+
+# Loglarni ko'rish
+sudo journalctl -u telegram_bot -f
+
+# Service'ni o'chirish (avtomatik ishga tushmaydi)
+sudo systemctl disable telegram_bot
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  5-QISM: PYTHONWHERE'DA HOSTING QILISH (BEPUL)
+═══════════════════════════════════════════════════════════════════════════════
+
+5.1 HISOB YARATISH
+------------------
+1) https://www.pythonanywhere.com ga kiring
+2) "Start running Python online in less than a minute!" tugmasini bosing
+3) Beginner account (bepul) tanlang
+4) Email va parol bilan ro'yxatdan o'ting
+
+
+5.2 FAYLLARNI YUKLASH
+----------------------
+1) Dashboard → Files bo'limiga o'ting
+2) "Upload a file" tugmasini bosing
+3) Quyidagi fayllarni yuklang:
+   - sherlock.py
+   - business_bot.db (agar mavjud bo'lsa)
+4) media_cache papkasini yarating va ichidagi fayllarni yuklang
+
+
+5.3 KUTUBXONALARNI O'RNATISH
+-----------------------------
+1) Dashboard → Consoles → Bash
+2) Quyidagi buyruqlarni bajaring:
+
+pip3 install --user "python-telegram-bot>=22.0"
+pip3 install --user telethon
+pip3 install --user flask
+
+
+5.4 BOTNI ISHGA TUSHIRISH
+--------------------------
+1) Dashboard → Tasks bo'limiga o'ting
+2) "Create a new scheduled task" bo'limida:
+   - Command: python3 /home/USERNAME/sherlock.py
+   - Hour: 00
+   - Minute: 00
+3) "Create" tugmasini bosing
+
+DIQQAT: PythonAnywhere bepul rejada:
+- Faqat 1 ta web app
+- Cheklangan CPU vaqti
+- Tashqi API'larga cheklov
+- Bot to'liq ishlamasligi mumkin
+
+
+5.5 WEB DASHBOARD SOZLASH
+--------------------------
+1) Dashboard → Web bo'limiga o'ting
+2) "Add a new web app" tugmasini bosing
+3) Flask framework tanlang
+4) Python version: 3.10
+5) Path: /home/USERNAME/sherlock.py
+6) "Next" tugmasini bosing
+
+WSGI faylini tahrirlash:
+1) Web bo'limida "WSGI configuration file" havolasini bosing
+2) Faylni quyidagicha o'zgartiring:
+
+import sys
+path = '/home/USERNAME'
+if path not in sys.path:
+    sys.path.append(path)
+
+from sherlock import flask_app as application
+
+3) Saqlang va "Reload" tugmasini bosing
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  6-QISM: MUAMMOLARNI HAL QILISH
+═══════════════════════════════════════════════════════════════════════════════
+
+6.1 BOT ISHLAMAYAPTI
+--------------------
+Sabab 1: Token noto'g'ri
+  ✓ sherlock.py faylida BOT_TOKEN to'g'riligini tekshiring
+  ✓ @BotFather dan yangi token oling
+
+Sabab 2: Python kutubxonalari o'rnatilmagan
+  ✓ pip install "python-telegram-bot>=22.0" telethon flask
+
+Sabab 3: Port band
+  ✓ sudo lsof -i :5000
+  ✓ Boshqa portni ishlating: WEB_PORT = 5001
+
+
+6.2 WEB DASHBOARD OCHILMAYAPTI
+-------------------------------
+Sabab 1: Firewall yopiq
+  ✓ sudo ufw allow 5000/tcp
+  ✓ sudo ufw reload
+
+Sabab 2: Bot ishlamayapti
+  ✓ screen -r telegram_bot
+  ✓ python3 sherlock.py
+
+Sabab 3: IP manzil noto'g'ri
+  ✓ hostname -I (serverda)
+  ✓ To'g'ri IP manzilni ishlating
+
+
+6.3 PAROL ISHLAMAYAPTI
+-----------------------
+Agar parolni unutgan bo'lsangiz:
+
+1) sherlock.py faylini oching
+2) Quyidagi qatorni toping:
+   const CORRECT_PASSWORD = 'a1234';
+3) Yangi parolga o'zgartiring
+4) Botni qayta ishga tushiring
+
+
+6.4 MEDIA FAYLLAR KO'RINMAYAPTI
+--------------------------------
+Sabab 1: media_cache papkasi yo'q
+  ✓ mkdir media_cache
+  ✓ chmod 755 media_cache
+
+Sabab 2: Fayllar yo'q
+  ✓ Botga media yuborib ko'ring
+  ✓ ls media_cache/ (fayllar borligini tekshiring)
+
+
+6.5 CHATLAR KO'RINMAYAPTI
+--------------------------
+Sabab 1: Ma'lumotlar bazasi bo'sh
+  ✓ Botga /start yuboring
+  ✓ Biror xabar yuboring
+  ✓ Web dashboard'ni yangilang
+
+Sabab 2: API_ID/API_HASH noto'g'ri
+  ✓ https://my.telegram.org/apps dan tekshiring
+  ✓ sherlock.py da to'g'riligini tasdiqlang
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  7-QISM: XAVFSIZLIK MASLAHATLARI
+═══════════════════════════════════════════════════════════════════════════════
+
+7.1 PAROLNI O'ZGARTIRISH
+-------------------------
+1) sherlock.py faylini oching
+2) Quyidagi qatorni toping:
+   const CORRECT_PASSWORD = 'a1234';
+3) Kuchli parol qo'ying (masalan: 'MyStr0ng#Pass2024!')
+4) Botni qayta ishga tushiring
+
+
+7.2 ADMIN_ID NI TO'G'RI SOZLASH
+--------------------------------
+Faqat siz botdan foydalanishingiz uchun:
+
+1) @userinfobot ga /start yuboring
+2) ID raqamingizni nusxalang
+3) sherlock.py da ADMIN_ID = sizning_id_raqamingiz
+4) Botni qayta ishga tushiring
+
+
+7.3 FIREWALL SOZLAMALARI
+-------------------------
+# Faqat kerakli portlarni ochish
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp    # SSH
+sudo ufw allow 80/tcp    # HTTP
+sudo ufw allow 443/tcp   # HTTPS
+sudo ufw allow 5000/tcp  # Web Dashboard
+sudo ufw enable
+
+
+7.4 SSH XAVFSIZLIGI
+-------------------
+# Root login'ni o'chirish
+sudo nano /etc/ssh/sshd_config
+
+Quyidagi qatorni toping va o'zgartiring:
+PermitRootLogin no
+
+# SSH'ni qayta ishga tushirish
+sudo systemctl restart sshd
+
+
+7.5 BACKUP OLISH
+----------------
+# Ma'lumotlar bazasini backup qilish
+cp business_bot.db business_bot_backup_$(date +%Y%m%d).db
+
+# Media fayllarni backup qilish
+tar -czf media_backup_$(date +%Y%m%d).tar.gz media_cache/
+
+# Serverdan kompyuterga yuklab olish (WinSCP/FileZilla orqali)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  8-QISM: FOYDALI BUYRUQLAR
+═══════════════════════════════════════════════════════════════════════════════
+
+# Botni ishga tushirish (screen bilan)
+screen -S telegram_bot
+python3 sherlock.py
+Ctrl+A, D
+
+# Screen'ga qaytish
+screen -r telegram_bot
+
+# Barcha screen'larni ko'rish
+screen -ls
+
+# Screen'ni to'xtatish
+screen -X -S telegram_bot quit
+
+# Loglarni ko'rish (systemd service)
+sudo journalctl -u telegram_bot -f
+
+# Disk joyini tekshirish
+df -h
+
+# RAM ishlatilishini tekshirish
+free -h
+
+# Botning ishlayotganini tekshirish
+ps aux | grep sherlock.py
+
+# Portni tekshirish
+sudo netstat -tulpn | grep 5000
+
+# Ma'lumotlar bazasi hajmini ko'rish
+du -h business_bot.db
+
+# Media cache hajmini ko'rish
+du -sh media_cache/
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  9-QISM: YANGILANISHLAR VA TEXNIK XIZMAT
+═══════════════════════════════════════════════════════════════════════════════
+
+9.1 BOTNI YANGILASH
+-------------------
+# Eski versiyani to'xtatish
+sudo systemctl stop telegram_bot
+
+# Yangi faylni yuklash (WinSCP orqali)
+# yoki Git orqali:
+cd /home/telegram_bot
+git pull
+
+# Botni qayta ishga tushirish
+sudo systemctl start telegram_bot
+
+
+9.2 PYTHON KUTUBXONALARINI YANGILASH
+-------------------------------------
+source /home/telegram_bot/venv/bin/activate
+pip install --upgrade "python-telegram-bot>=22.0"
+pip install --upgrade telethon
+pip install --upgrade flask
+
+
+9.3 ESKI MA'LUMOTLARNI TOZALASH
+--------------------------------
+# 30 kundan eski media fayllarni o'chirish
+find media_cache/ -type f -mtime +30 -delete
+
+# Ma'lumotlar bazasini tozalash (ehtiyotkorlik bilan!)
+# Avval backup oling!
+sqlite3 business_bot.db "DELETE FROM business_cache WHERE expires_at < datetime('now');"
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  10-QISM: TEZKOR BOSHLASH (QISQACHA)
+═══════════════════════════════════════════════════════════════════════════════
+
+Ubuntu serverda 5 daqiqada ishga tushirish:
+
+# 1. Serverni yangilash
+sudo apt update && sudo apt upgrade -y
+
+# 2. Kerakli dasturlarni o'rnatish
+sudo apt install python3 python3-pip python3-venv screen -y
+
+# 3. Papka yaratish va kirish
+mkdir /home/telegram_bot && cd /home/telegram_bot
+
+# 4. Fayllarni yuklash (WinSCP orqali)
+# sherlock.py va boshqa fayllarni yuklang
+
+# 5. Virtual environment yaratish
+python3 -m venv venv
+source venv/bin/activate
+
+# 6. Kutubxonalarni o'rnatish
+pip install "python-telegram-bot>=22.0" telethon flask
+
+# 7. Konfiguratsiyani sozlash
+nano sherlock.py
+# BOT_TOKEN, ADMIN_ID, API_ID, API_HASH ni o'zgartiring
+
+# 8. Portni ochish
+sudo ufw allow 5000/tcp
+
+# 9. Botni ishga tushirish
+screen -S telegram_bot
+python3 sherlock.py
+# Ctrl+A, D (chiqish)
+
+# 10. Brauzerda ochish
+# http://SERVER_IP:5000
+# Parol: a1234
+
+TAYYOR! ✅
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  YORDAM VA QO'LLAB-QUVVATLASH
+═══════════════════════════════════════════════════════════════════════════════
+
+Agar muammo yuzaga kelsa:
+
+1) Loglarni tekshiring:
+   sudo journalctl -u telegram_bot -f
+
+2) Botning ishlayotganini tekshiring:
+   ps aux | grep sherlock.py
+
+3) Portni tekshiring:
+   sudo netstat -tulpn | grep 5000
+
+4) Firewall sozlamalarini tekshiring:
+   sudo ufw status
+
+5) Ma'lumotlar bazasini tekshiring:
+   sqlite3 business_bot.db "SELECT COUNT(*) FROM business_cache;"
+
+
+MUVAFFAQIYATLAR! 🚀
+
+═══════════════════════════════════════════════════════════════════════════════

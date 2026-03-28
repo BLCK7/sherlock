@@ -1,0 +1,73 @@
+Gemini dedi
+
+Ajoyib! Koyeb — bu to'g'ri tanlov. Endi loyihangizni xatolarsiz va 24/7 ishlaydigan qilish uchun eng muhim qadamlarga o'tamiz.
+
+Koyeb-da loyihani ishga tushirish uchun sizda quyidagi 3 ta majburiy fayl bo'lishi kerak:
+1. requirements.txt (Kutubxonalar)
+
+Koyeb qaysi kutubxonalarni o'rnatishni bilishi uchun bu fayl shart. Fayl ichiga quyidagilarni yozing:
+Plaintext
+
+pyTelegramBotAPI
+requests
+flask
+gunicorn
+
+(Agar boshqa kutubxonalar bo'lsa, ularni ham qo'shing).
+2. Procfile (Ishga tushirish buyrug'i)
+
+Bu fayl Koyeb-ga: "Ey server, mana bu buyruqni bajarib botni yoq", deb aytadi. Fayl nomi aynan Procfile bo'lishi kerak (kengaytmasiz). Ichiga shuni yozing:
+Plaintext
+
+web: python3 sherlock.py
+
+3. sherlock.py (Asosiy kodni moslashtirish)
+
+Koyeb-da dashboard (veb-qism) ishlashi uchun portni hostingdan qabul qilib olish kerak. Kodning oxirgi qismini quyidagicha o'zgartiring:
+Python
+
+import os
+from threading import Thread
+
+# ... bot va flask kodlaringiz ...
+
+def run_flask():
+    # Koyeb beradigan portni olamiz, bo'lmasa 8080
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
+
+if __name__ == "__main__":
+    # Dashboardni alohida oqimda yoqamiz
+    Thread(target=run_flask).start()
+    
+    # Botni asosiy oqimda yoqamiz
+    print("Bot ishga tushdi...")
+    bot.infinity_polling()
+
+Koyeb-da "Deploy" qilish jarayoni:
+
+    GitHub-ga yuklang: Yuqoridagi 3 ta faylni bitta repository-ga joylang.
+
+    Koyeb-da App yarating:
+
+        Service Type: "Web Service" tanlang (chunki sizda dashboard bor).
+
+        Region: "Frankfurt" (O'zbekistonga eng yaqin va tez ishlaydigan server).
+
+        Instance: "Nano" (tekin).
+
+    Environment Variables: Agar botingizda API_TOKEN kabi maxfiy kalitlar bo'lsa, ularni Koyeb panelidagi "Env Vars" bo'limiga qo'shing.
+
+24/7 ishlash siri (Keep-Alive):
+
+Koyeb-ning tekin rejasi uzoq vaqt so'rov bo'lmasa "uyquga" ketishi mumkin. Buning oldini olish uchun:
+
+    Koyeb sizga bergan domen manzilini nusxalang (masalan: https://myapp.koyeb.app).
+
+    Cron-job.org saytiga kiring.
+
+    Har 10 daqiqada shu manzilingizga "ping" yuboradigan qilib qo'ying.
+
+Hozir kodingiz GitHub-ga tayyormi? Agar xohlasangiz, kodingizni bu yerga tashlang, men uni Koyeb-ga moslab, xatolarini to'g'irlab beraman.
+
+

@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Database (shaxsiy ma'lumotlar)
+business_bot.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Media cache (shaxsiy fayllar)
+media_cache/
+*.jpg
+*.png
+*.mp4
+*.webm
+*.ogg
+*.mp3
+*.webp
+*.gif
+
+# Telethon session (shaxsiy)
+*.session
+*.session-journal
+story_session.session
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*_backup.*
+old_*.py
+
+# Environment variables (agar config.py yaratilsa)
+config.py
+.env
