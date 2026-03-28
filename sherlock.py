@@ -39,7 +39,7 @@ from telethon.tl.types import MessageMediaDocument
 #  CONFIG
 # ─────────────────────────────────────────────────────────────
 
-BOT_TOKEN    = "8420281985:AAF5SwhWg5qK9c2b22Hc__v6ylmlS_kENU8"
+BOT_TOKEN    = "8420281985:AAGk2aPihpyRlupVBdBsfALlJG-XJtqsF2k"
 ADMIN_ID     = 5982232938
 DB_PATH      = "business_bot.db"
 MEDIA_CACHE  = "media_cache"
